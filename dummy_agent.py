@@ -24,6 +24,7 @@ This dummy agent demonstrates ALL features available in orca-pip:
 
 import asyncio
 import logging
+import os
 import time
 from typing import Optional
 from pathlib import Path
@@ -88,10 +89,14 @@ from orca.config import LoadingKind, ButtonColor, TokenType
 from orca import LambdaAdapter, create_lambda_handler
 
 # Setup logging
+# In Lambda, /var/task is read-only, so use /tmp for log files
+is_lambda = os.environ.get("AWS_LAMBDA_FUNCTION_NAME") is not None
+log_file_path = "/tmp/dummy_agent.log" if is_lambda else "dummy_agent.log"
+
 setup_logging(
     level=logging.INFO,
-    log_file="dummy_agent.log",
-    enable_colors=True
+    log_file=log_file_path,
+    enable_colors=not is_lambda  # Disable colors in Lambda (CloudWatch doesn't support them)
 )
 logger = get_logger(__name__)
 
