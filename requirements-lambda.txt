@@ -13,6 +13,13 @@
 # If using local package, install with: pip install -e /path/to/orca-pip
 orcapt-sdk>=1.0.3
 
+
+
+# Web framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+
 # AWS SDK (REQUIRED for Lambda)
 boto3>=1.34.0
 
