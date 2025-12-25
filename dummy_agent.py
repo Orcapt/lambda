@@ -850,6 +850,15 @@ class DummyAgent:
                 - "errors": Error handling
                 - "comprehensive": All features (default)
         """
+        # Log stream_url and stream_token if present
+        if hasattr(data, 'stream_url') and hasattr(data, 'stream_token'):
+            if data.stream_url and data.stream_token:
+                logger.info(f"Stream URL and token found in request: URL={data.stream_url[:50]}...")
+            else:
+                logger.warning("stream_url or stream_token is None/empty in request")
+        else:
+            logger.warning("stream_url or stream_token not found in ChatMessage")
+        
         examples = {
             "basic": self.basic_session_example,
             "loading": self.loading_indicators_example,
@@ -875,38 +884,6 @@ class DummyAgent:
         except Exception as e:
             logger.exception(f"Unexpected error: {e}")
             raise
-
-
-# ============================================================================
-# 15. LAMBDA ADAPTER SETUP
-# ============================================================================
-
-# Determine dev mode from environment (default: False for production)
-dev_mode = os.getenv("ORCA_DEV_MODE", "false").lower() == "true"
-
-# Initialize agent
-agent = DummyAgent(dev_mode=dev_mode)
-
-# Lambda adapter
-lambda_adapter = LambdaAdapter()
-
-
-@lambda_adapter.message_handler
-async def lambda_process_message(data: ChatMessage):
-    """Lambda handler for message processing."""
-    return agent.process(data, example_type="comprehensive")
-
-
-@lambda_adapter.cron_handler
-async def lambda_scheduled_task(event):
-    """Lambda handler for scheduled tasks."""
-    logger.info("Scheduled task executed")
-    return {"status": "success"}
-
-
-def lambda_handler(event, context):
-    """AWS Lambda handler."""
-    return lambda_adapter.handle(event, context)
 
 
 # ============================================================================
