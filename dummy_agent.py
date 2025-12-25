@@ -881,8 +881,11 @@ class DummyAgent:
 # 15. LAMBDA ADAPTER SETUP
 # ============================================================================
 
+# Determine dev mode from environment (default: False for production)
+dev_mode = os.getenv("ORCA_DEV_MODE", "false").lower() == "true"
+
 # Initialize agent
-agent = DummyAgent(dev_mode=True)
+agent = DummyAgent(dev_mode=dev_mode)
 
 # Lambda adapter
 lambda_adapter = LambdaAdapter()
