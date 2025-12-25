@@ -18,8 +18,7 @@ COPY requirements-lambda.txt .
 RUN pip install --no-cache-dir -r requirements-lambda.txt
 
 # Copy application code
-COPY lambda_handler.py .
-COPY dummy_agent.py .
+COPY lambda_handler.py dummy_agent.py main.py ./
 
 # Copy any additional files if needed (prompts, configs, etc.)
 # COPY prompts ./prompts
