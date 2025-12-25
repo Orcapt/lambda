@@ -1,0 +1,19 @@
+services:
+  dummy-agent:
+    image: orca_dummy_agent
+    container_name: orca_dummy_agent
+    build: .
+    volumes:
+      - .:/app
+    env_file: .env
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dummy_agent.rule=Host(`${APP_DOMAIN}`)"
+      - "traefik.docker.network=traefik-network"
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    external: true

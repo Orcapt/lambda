@@ -1,0 +1,30 @@
+# Dockerfile.lambda
+# =================
+#
+# Production-ready Dockerfile for AWS Lambda deployment.
+# Build: docker build -f Dockerfile.lambda -t orca-dummy-agent:latest .
+# Deploy: orca ship orca-dummy-agent --image orca-dummy-agent:latest --env-file .env.lambda
+
+FROM public.ecr.aws/lambda/python:3.11
+
+# Set working directory (Lambda standard)
+WORKDIR ${LAMBDA_TASK_ROOT}
+
+# Upgrade pip first
+RUN pip install --no-cache-dir --upgrade pip
+
+# Copy and install Lambda-optimized requirements
+COPY requirements-lambda.txt .
+RUN pip install --no-cache-dir -r requirements-lambda.txt
+
+# Copy application code
+COPY lambda_handler.py .
+COPY dummy_agent.py .
+
+# Copy any additional files if needed (prompts, configs, etc.)
+# COPY prompts ./prompts
+# COPY config ./config
+
+# Set the Lambda handler entry point
+CMD ["lambda_handler.handler"]
+

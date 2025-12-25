@@ -1,0 +1,16 @@
+# Orca SDK - Main package
+orcapt-sdk>=1.0.3
+
+# Web framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# Optional: For Lambda deployment
+# boto3>=1.28.0
+
+# Optional: For OpenAI integration
+# openai>=1.0.0
+
+# Optional: For additional utilities
+# requests>=2.31.0
+

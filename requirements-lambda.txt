@@ -1,0 +1,30 @@
+# requirements-lambda.txt
+# =======================
+#
+# Lambda-specific requirements for orca-dummy-agent.
+# Keep minimal for faster cold starts!
+#
+# Install from local orca-pip package:
+# pip install -e /path/to/orca-pip
+# OR install from PyPI:
+# pip install orcapt-sdk>=1.0.3
+
+# Core Orca SDK (REQUIRED)
+# If using local package, install with: pip install -e /path/to/orca-pip
+orcapt-sdk>=1.0.3
+
+# AWS SDK (REQUIRED for Lambda)
+boto3>=1.34.0
+
+# Optional: AI Providers (uncomment if needed)
+# openai>=1.0.0
+# anthropic>=0.7.0
+
+# Optional: Database drivers (uncomment if needed)
+# psycopg[binary]>=3.1.0  # PostgreSQL
+# pymongo>=4.6.0          # MongoDB
+
+# Optional: Other utilities (uncomment if needed)
+# redis>=5.0.0
+# celery>=5.3.0
+
